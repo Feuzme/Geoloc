@@ -1,4 +1,4 @@
-package snir.rostand.geoloc.Geoloc;
+package snir.rostand.geoloc.Geoloc.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Pieces {
+public class Piece {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer idPiece;
@@ -14,6 +14,8 @@ public class Pieces {
     String nomPiece;
     @Column
     Integer Esp32id;
-    @Column
-    Integer idService;
+    @ManyToOne
+    Service idService;
+    @OneToOne
+    Chariot chariot;
 }

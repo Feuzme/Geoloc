@@ -1,14 +1,15 @@
-package snir.rostand.geoloc.Geoloc;
+package snir.rostand.geoloc.Geoloc.entity;
 
 
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
-public class Chariots {
+public class Chariot {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer idChariot;
@@ -19,12 +20,12 @@ public class Chariots {
     @Column
     Date dateDerniereLoc;
 
-    @Column
-    Integer idDernierePiece;
+    @OneToOne
+    Piece dernierePiece;
 
-    @Column
-    Integer idReservation;
+    @OneToMany
+    List<Reservation> reservation;
 
-    @Column
-    Integer idServiceProprietaire;
+    @OneToOne
+    Service serviceProprietaire;
 }

@@ -1,4 +1,4 @@
-package snir.rostand.geoloc.Geoloc;
+package snir.rostand.geoloc.Geoloc.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-public class Reservations {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer idReservation;
@@ -18,7 +18,9 @@ public class Reservations {
     @Column
     Timestamp dateFinReservation;
     @Column
-    Integer idUtilisateur;
-    @Column
     String typeReservation;
+    @ManyToOne
+    Utilisateur utilisateur;
+    @ManyToOne
+    Chariot chariot;
 }
