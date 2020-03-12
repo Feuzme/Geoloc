@@ -15,6 +15,9 @@ public class Chariot {
     Integer idChariot;
 
     @Column
+    String macBeacon;
+
+    @Column
     String typeChariot;
 
     @Column
@@ -26,6 +29,6 @@ public class Chariot {
     @OneToMany
     List<Reservation> reservation;
 
-    @OneToOne
+    @ManyToOne
     Service serviceProprietaire;
 }

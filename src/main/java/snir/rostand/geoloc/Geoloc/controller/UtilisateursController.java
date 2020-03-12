@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import snir.rostand.geoloc.Geoloc.Payroll.UtilisateurNotFoundException;
 import snir.rostand.geoloc.Geoloc.dto.CreateUpdateUtilisateurDto;
+import snir.rostand.geoloc.Geoloc.dto.UpdateUtilisateurPermissionDto;
 import snir.rostand.geoloc.Geoloc.entity.Utilisateur;
 import snir.rostand.geoloc.Geoloc.repository.UtilisateursRepository;
 
@@ -14,12 +15,12 @@ public class UtilisateursController {
     @Autowired
     UtilisateursRepository utilisateursRepo;
     @GetMapping("/utilisateurs")
-    public List getUtilisateurs(){
+    List getUtilisateurs(){
         return utilisateursRepo.findAll();
     }
 
     @GetMapping("/utilisateurs/{idUtilisateur]")
-    public Utilisateur getUtilisateurById(@PathVariable Integer idUtilisateur){
+    Utilisateur getUtilisateurById(@PathVariable Integer idUtilisateur){
         return  utilisateursRepo.findById(idUtilisateur)
                 .orElseThrow(()-> new UtilisateurNotFoundException(idUtilisateur));
     }
@@ -33,13 +34,24 @@ public class UtilisateursController {
         return utilisateursRepo.save(newUtilisateur);
     }
 
-    @PutMapping("/utilisateur/app/{idUtilisateur}")
+    @PutMapping("/utilisateurs/app/{idUtilisateur}")
     Utilisateur newUtilisiteur(@PathVariable Integer idUtilisateur, @RequestBody CreateUpdateUtilisateurDto dto){
         return utilisateursRepo.findById(idUtilisateur)
                 .map(
                         utilisateur -> {
                             utilisateur.setIdentifiant(dto.getIdentifiant());
                             utilisateur.setMotDePasse(dto.getMotDePasse());
+                            utilisateur.setPermission(dto.getPermission());
+                            return utilisateursRepo.save(utilisateur);
+                        }
+                ).orElseThrow(()->new UtilisateurNotFoundException(idUtilisateur));
+    }
+
+    @PutMapping("/utilisateurs/{idUtilisateur}")
+    Utilisateur updatePermissionUtilisateur(@PathVariable Integer idUtilisateur, @RequestBody UpdateUtilisateurPermissionDto dto){
+        return utilisateursRepo.findById(idUtilisateur)
+                .map(
+                        utilisateur -> {
                             utilisateur.setPermission(dto.getPermission());
                             return utilisateursRepo.save(utilisateur);
                         }

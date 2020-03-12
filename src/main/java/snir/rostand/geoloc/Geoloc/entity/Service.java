@@ -1,13 +1,11 @@
 package snir.rostand.geoloc.Geoloc.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 public class Service {
     @Id
@@ -15,8 +13,8 @@ public class Service {
     Integer idService;
     @Column
     String nomService;
-    @OneToOne
-    Chariot chariot;
+    @OneToMany
+    List<Chariot> chariot;
     @OneToMany
     List<Piece> pieces;
 }

@@ -13,4 +13,5 @@ import snir.rostand.geoloc.Geoloc.entity.Service;
 public class CreateUpdateAppChariotDto {
     String typeChariot;
     Service serviceProprietaire;
+    String macChariot;
 }

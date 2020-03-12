@@ -32,6 +32,7 @@ public class ChariotsController {
             Chariot newChariot = new Chariot();
             newChariot.setServiceProprietaire(dto.getServiceProprietaire());
             newChariot.setTypeChariot(dto.getTypeChariot());
+            newChariot.setMacBeacon(dto.getMacChariot());
             return chariotsRepo.save(newChariot);
     }
 
