@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdatePieceDto {
-    String nomPiece;
+public class UpdatePieceDto {
     Integer Esp32id;
 }

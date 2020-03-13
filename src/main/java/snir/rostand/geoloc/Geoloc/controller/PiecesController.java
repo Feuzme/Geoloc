@@ -3,17 +3,23 @@ package snir.rostand.geoloc.Geoloc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import snir.rostand.geoloc.Geoloc.Payroll.PieceNotFoundException;
-import snir.rostand.geoloc.Geoloc.dto.CreateUpdatePieceDto;
+import snir.rostand.geoloc.Geoloc.Payroll.ServiceNotFoundException;
+import snir.rostand.geoloc.Geoloc.dto.CreatePieceDto;
+import snir.rostand.geoloc.Geoloc.dto.UpdatePieceDto;
 import snir.rostand.geoloc.Geoloc.entity.Piece;
+import snir.rostand.geoloc.Geoloc.entity.Service;
 import snir.rostand.geoloc.Geoloc.repository.PiecesRepository;
+import snir.rostand.geoloc.Geoloc.repository.ServicesRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PiecesController {
     @Autowired
     PiecesRepository piecesRepo;
-
+    @Autowired
+    ServicesRepository servicesRepo;
     //GET
     @GetMapping("/pieces/get/list")
     List getPieces() {
@@ -28,8 +34,13 @@ public class PiecesController {
 
     //POST
     @PostMapping("/piece/post")
-    Piece postPiece(@RequestBody CreateUpdatePieceDto dto){
+    Piece postPiece(@RequestBody CreatePieceDto dto){
         Piece newPiece = new Piece();
+        Optional<Service>optService = servicesRepo.findById(dto.getIdService());
+        if(!optService.isPresent()) {
+            throw new ServiceNotFoundException(dto.getIdService());
+        }
+        newPiece.setIdService(optService.get());
         newPiece.setNomPiece(dto.getNomPiece());
         newPiece.setEsp32id(dto.getEsp32id());
         return piecesRepo.save(newPiece);
@@ -37,10 +48,9 @@ public class PiecesController {
 
     //PUT
     @PutMapping("/pieces/put/{idPiece}")
-    Piece putPiece(@PathVariable Integer idPiece, @RequestBody CreateUpdatePieceDto dto){
+    Piece putPiece(@PathVariable Integer idPiece, @RequestBody UpdatePieceDto dto){
         return piecesRepo.findById(idPiece)
                 .map(piece -> {
-                    piece.setNomPiece(dto.getNomPiece());
                     piece.setEsp32id(dto.getEsp32id());
                     return piecesRepo.save(piece);
                 }).orElseThrow(()->new PieceNotFoundException(idPiece));

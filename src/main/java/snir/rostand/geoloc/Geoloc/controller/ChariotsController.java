@@ -53,8 +53,12 @@ public class ChariotsController {
     Chariot remplaceChariot(@RequestBody CreateUpdateAppChariotDto dto, @PathVariable Integer chariotId) {
         return chariotsRepo.findById(chariotId)
                 .map(chariot -> {
+                    Optional<Service> optService = serviceRepo.findById(dto.getIdService());
+                    if(!optService.isPresent()){
+                        throw new ServiceNotFoundException(dto.getIdService());
+                    }
                     chariot.setTypeChariot(dto.getTypeChariot());
-                    chariot.setServiceProprietaire(serviceRepo.getOne(dto.getIdService()));
+                    chariot.setServiceProprietaire(optService.get());
                     return chariotsRepo.save(chariot);
                 })
                 .orElseThrow(() -> new ChariotNotFoundException(chariotId));

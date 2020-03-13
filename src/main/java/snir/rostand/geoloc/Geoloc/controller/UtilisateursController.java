@@ -14,6 +14,7 @@ import java.util.List;
 public class UtilisateursController {
     @Autowired
     UtilisateursRepository utilisateursRepo;
+
     @GetMapping("/utilisateurs/get/list")
     List getUtilisateurs(){
         return utilisateursRepo.findAll();

@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateReservationDto {
-    Timestamp dateDebutReservation;
-    Timestamp dateFinReservation;
-    String typeReservation;
-    Integer idChariot;
+public class CreatePieceDto {
+    String nomPiece;
+    Integer Esp32id;
+    Integer idService;
 }
