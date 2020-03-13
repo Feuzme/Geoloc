@@ -12,6 +12,6 @@ import snir.rostand.geoloc.Geoloc.entity.Service;
 @NoArgsConstructor
 public class CreateUpdateAppChariotDto {
     String typeChariot;
-    Service serviceProprietaire;
+    Integer idService;
     String macChariot;
 }
