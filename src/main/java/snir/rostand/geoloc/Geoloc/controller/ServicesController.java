@@ -14,25 +14,25 @@ public class ServicesController {
     @Autowired
     ServicesRepository servicesRepo;
 
-    @GetMapping("/services/list")
+    @GetMapping("/services/get/list")
     List getServices(){
         return servicesRepo.findAll();
     }
 
-    @GetMapping("/services/{idService}")
+    @GetMapping("/services/get/{idService}")
     Service getServiceById(@PathVariable Integer idService){
         return servicesRepo.findById(idService)
                 .orElseThrow(()->new ServiceNotFoundException(idService));
     }
 
-    @PostMapping("/services")
+    @PostMapping("/services/post")
     Service newService(@RequestBody CreateUpdateServiceDto dto){
         Service newService = new Service();
         newService.setNomService(dto.getNomService());
         return servicesRepo.save(newService);
     }
 
-    @PutMapping("/services/{idService}")
+    @PutMapping("/services/put/{idService}")
     Service newService(@RequestBody CreateUpdateServiceDto dto, @PathVariable Integer idService){
         return servicesRepo.findById(idService)
                 .map(
@@ -43,7 +43,7 @@ public class ServicesController {
                 ).orElseThrow(()->new ServiceNotFoundException(idService));
     }
 
-    @DeleteMapping("/services/{idService}")
+    @DeleteMapping("/services/delete/{idService}")
     void deleteService(@PathVariable Integer idService){
         servicesRepo.deleteById(idService);
     }

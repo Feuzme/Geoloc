@@ -16,18 +16,18 @@ public class ChariotsController {
     @Autowired
     ChariotsRepository chariotsRepo;
 
-    @GetMapping("/chariots")
+    @GetMapping("/chariots/get/list")
     List getChariots(){
         return chariotsRepo.findAll();
     }
 
-    @GetMapping("/chariots/{idChariot}")
+    @GetMapping("/chariots/get/{idChariot}")
     Chariot getChariotById(@PathVariable Integer idChariot){
         return chariotsRepo.findById(idChariot)
                 .orElseThrow(()->new ChariotNotFoundException(idChariot));
     }
 
-    @PostMapping("/chariots")
+    @PostMapping("/chariots/post")
     Chariot newCharriot(@RequestBody CreateUpdateAppChariotDto dto){
             Chariot newChariot = new Chariot();
             newChariot.setServiceProprietaire(dto.getServiceProprietaire());
@@ -36,7 +36,7 @@ public class ChariotsController {
             return chariotsRepo.save(newChariot);
     }
 
-    @PutMapping("/chariots/app/{chariotId}")
+    @PutMapping("/chariots/put/app/{chariotId}")
     Chariot remplaceChariot(@RequestBody CreateUpdateAppChariotDto dto, @PathVariable Integer chariotId){
         return chariotsRepo.findById(chariotId)
                 .map(chariot -> {
@@ -46,7 +46,7 @@ public class ChariotsController {
                 })
                 .orElseThrow(()->new ChariotNotFoundException(chariotId));
     }
-    @PutMapping("/chariots/esp/{chariotId}")
+    @PutMapping("/chariots/put/esp/{chariotId}")
     Chariot updateChariot(@RequestBody UpdateEspChariotDto dto, @PathVariable Integer chariotId){
         return chariotsRepo.findById(chariotId)
                 .map(chariot -> {
@@ -57,7 +57,7 @@ public class ChariotsController {
                 .orElseThrow(()->new ChariotNotFoundException(chariotId));
     }
 
-    @DeleteMapping("/chariot/{chariotId}")
+    @DeleteMapping("/chariot/delete/{chariotId}")
     void deleteChariot(@PathVariable Integer chariotId){
             chariotsRepo.deleteById(chariotId);
     }

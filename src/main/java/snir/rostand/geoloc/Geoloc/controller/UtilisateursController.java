@@ -14,18 +14,18 @@ import java.util.List;
 public class UtilisateursController {
     @Autowired
     UtilisateursRepository utilisateursRepo;
-    @GetMapping("/utilisateurs")
+    @GetMapping("/utilisateurs/get/list")
     List getUtilisateurs(){
         return utilisateursRepo.findAll();
     }
 
-    @GetMapping("/utilisateurs/{idUtilisateur]")
+    @GetMapping("/utilisateurs/get/{idUtilisateur]")
     Utilisateur getUtilisateurById(@PathVariable Integer idUtilisateur){
         return  utilisateursRepo.findById(idUtilisateur)
                 .orElseThrow(()-> new UtilisateurNotFoundException(idUtilisateur));
     }
 
-    @PostMapping("/utilisateurs")
+    @PostMapping("/utilisateurs/post")
     Utilisateur newUtilisateur(@RequestBody CreateUpdateUtilisateurDto dto){
         Utilisateur newUtilisateur = new Utilisateur();
         newUtilisateur.setIdentifiant(dto.getIdentifiant());
@@ -34,7 +34,7 @@ public class UtilisateursController {
         return utilisateursRepo.save(newUtilisateur);
     }
 
-    @PutMapping("/utilisateurs/app/{idUtilisateur}")
+    @PutMapping("/utilisateurs/put/all/{idUtilisateur}")
     Utilisateur newUtilisiteur(@PathVariable Integer idUtilisateur, @RequestBody CreateUpdateUtilisateurDto dto){
         return utilisateursRepo.findById(idUtilisateur)
                 .map(
@@ -47,7 +47,7 @@ public class UtilisateursController {
                 ).orElseThrow(()->new UtilisateurNotFoundException(idUtilisateur));
     }
 
-    @PutMapping("/utilisateurs/{idUtilisateur}")
+    @PutMapping("/utilisateurs/put/permission/{idUtilisateur}")
     Utilisateur updatePermissionUtilisateur(@PathVariable Integer idUtilisateur, @RequestBody UpdateUtilisateurPermissionDto dto){
         return utilisateursRepo.findById(idUtilisateur)
                 .map(
@@ -58,7 +58,7 @@ public class UtilisateursController {
                 ).orElseThrow(()->new UtilisateurNotFoundException(idUtilisateur));
     }
 
-    @DeleteMapping("/utilisateurs/{idUtilisateur}")
+    @DeleteMapping("/utilisateurs/delete/{idUtilisateur}")
     void deleteUtilisateur(@PathVariable Integer idUtilisateur)
     {
         utilisateursRepo.deleteById(idUtilisateur);

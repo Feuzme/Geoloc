@@ -14,17 +14,18 @@ public class ReservationController {
     @Autowired
     ReservationsRepository reservationsRepo;
     //GET
-    @GetMapping("/reservations")
+    @GetMapping("/reservations/get/list")
     List getReservations(){
         return reservationsRepo.findAll();
     }
-    @GetMapping("/reservations/{idReservation}")
-    Reservation reservation(@PathVariable Integer idReservation){
+
+    @GetMapping("/reservations/get/{idReservation}")
+    Reservation getReservation(@PathVariable Integer idReservation){
         return reservationsRepo.findById(idReservation)
                 .orElseThrow(()->new ReservationNotFoundException(idReservation));
     }
     //POST
-    @PostMapping("/reservations")
+    @PostMapping("/reservations/post")
     Reservation newReservation(@RequestBody CreateUpdateReservationDto dto){
         Reservation newReservation = new Reservation();
         newReservation.setDateDebutReservation(dto.getDateDebutReservation());
@@ -33,7 +34,7 @@ public class ReservationController {
         return reservationsRepo.save(newReservation);
     }
     //PUT
-    @PutMapping("/reservations/{idReservation}")
+    @PutMapping("/reservations/put/{idReservation}")
     Reservation remplaceReservation(@RequestBody CreateUpdateReservationDto dto, @PathVariable Integer idReservation){
         return reservationsRepo.findById(idReservation)
                 .map(reservation -> {
@@ -45,4 +46,8 @@ public class ReservationController {
                 .orElseThrow(()->new ReservationNotFoundException(idReservation));
     }
     //DELETE
+    @DeleteMapping("/reservattions/delete/{idReservation}")
+    void deleteReservation(@PathVariable Integer idReservation){
+        reservationsRepo.deleteById(idReservation);
+    }
 }
