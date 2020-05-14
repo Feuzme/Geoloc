@@ -4,14 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import snir.rostand.geoloc.Geoloc.entity.Service;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUpdateAppChariotDto {
-    String typeChariot;
-    Integer idService;
+public class UpdateMacChariotDto {
     String macBeacon;
 }

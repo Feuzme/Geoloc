@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import snir.rostand.geoloc.Geoloc.Payroll.ChariotNotFoundException;
 import snir.rostand.geoloc.Geoloc.Payroll.ServiceNotFoundException;
 import snir.rostand.geoloc.Geoloc.dto.UpdateEspChariotDto;
+import snir.rostand.geoloc.Geoloc.dto.UpdateMacChariotDto;
 import snir.rostand.geoloc.Geoloc.entity.Service;
 import snir.rostand.geoloc.Geoloc.repository.ChariotsRepository;
 import snir.rostand.geoloc.Geoloc.dto.CreateUpdateAppChariotDto;
@@ -44,7 +45,7 @@ public class ChariotsController {
         }
         newChariot.setServiceProprietaire(optService.get());
         newChariot.setTypeChariot(dto.getTypeChariot());
-        newChariot.setMacBeacon(dto.getMacChariot());
+        newChariot.setMacBeacon(dto.getMacBeacon());
         return chariotsRepo.save(newChariot);
 
     }
@@ -64,6 +65,16 @@ public class ChariotsController {
                 .orElseThrow(() -> new ChariotNotFoundException(chariotId));
     }
 
+    @PutMapping("/chariot/put/app/{chariotId}")
+    Chariot remplaceChariotMac(@RequestBody UpdateMacChariotDto dto, @PathVariable Integer chariotId) {
+        return chariotsRepo.findById(chariotId)
+                .map(chariot -> {
+                    chariot.setMacBeacon(dto.getMacBeacon());
+                    return chariotsRepo.save(chariot);
+                })
+                .orElseThrow(()->new ChariotNotFoundException(chariotId));
+    }
+
     @PutMapping("/chariots/put/esp/{chariotId}")
     Chariot updateChariot(@RequestBody UpdateEspChariotDto dto, @PathVariable Integer chariotId) {
         return chariotsRepo.findById(chariotId)
@@ -74,6 +85,8 @@ public class ChariotsController {
                 })
                 .orElseThrow(() -> new ChariotNotFoundException(chariotId));
     }
+
+
 
     @DeleteMapping("/chariot/delete/{chariotId}")
     void deleteChariot(@PathVariable Integer chariotId) {
